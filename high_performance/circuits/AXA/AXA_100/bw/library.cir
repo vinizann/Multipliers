@@ -1,0 +1,340 @@
+*Biblioteca de circuitos
+*============inversor================================
+.Subckt INV a out vdd gnd
+	Mp1 vdd a out vdd PMOS l=16n w=64n 
+	Mn1 out a gnd gnd NMOS l=16n w=32n 		
+.Ends INV
+*====================NAND==========================
+.Subckt NAND a b out vdd gnd 
+*rede pull up
+	Mpa vdd a out vdd PMOS l=16n w=64n 
+	Mpb vdd b out vdd PMOS l=16n w=64n 
+*rede pull down
+	Mna out a x gnd NMOS l=16n w=32n 
+	Mnb x b gnd gnd NMOS l=16n w=32n 	
+.Ends NAND
+
+*======================NAND3===========================
+.Subckt NAND3 a b c out vdd gnd
+*rede pull up
+	Mpa vdd a out vdd PMOS l=16n w=64n 
+	Mpb vdd b out vdd PMOS l=16n w=64n 
+	Mpc vdd c vdd vdd PMOS l=16n w=64n 
+
+*rede pull down
+	Mna out a x gnd NMOS l=16n w=32n 
+	Mnb x b y gnd NMOS l=16n w=32n 
+	Mnc y c gnd gnd NMOS l=16n w=32n 
+
+.Ends NAND3
+*====================NAND4============================
+.Subckt NAND4 a b c d out vdd gnd
+*rede pull up
+	Mpa vdd a out vdd PMOS l=16n w=64n 
+	Mpb vdd b out vdd PMOS l=16n w=64n 
+	Mpc vdd c out vdd PMOS l=16n w=64n 
+	Mpd vdd d out vdd PMOS l=16n w=64n 
+
+*rede pull down
+	Mna out a x gnd NMOS l=16n w=32n 
+	Mnb x b y gnd NMOS l=16n w=32n 
+	Mnc y c z gnd NMOS l=16n w=32n 
+	Mnd z d gnd gnd NMOS l=16n w=32n 
+
+.Ends NAND4
+*====================NAND5============================
+.Subckt NAND5 a b c d e out vdd gnd
+*rede pull up
+	Mpa vdd a out vdd PMOS l=16n w=64n 
+	Mpb vdd b out vdd PMOS l=16n w=64n 
+	Mpc vdd c out vdd PMOS l=16n w=64n 
+	Mpd vdd d out vdd PMOS l=16n w=64n 
+	Mpe vdd e out vdd PMOS l=16n w=64n 
+
+*rede pull down
+	Mna out a x gnd NMOS l=16n w=32n 
+	Mnb x b y gnd NMOS l=16n w=32n 
+	Mnc y c z gnd NMOS l=16n w=32n 
+	Mnd z d z1 gnd NMOS l=16n w=32n 
+	Mne z1 e gnd gnd NMOS l=16n w=32n 
+
+.Ends NAND5
+*===================AND==============================
+.Subckt AND a b out vdd gnd 
+	Xn2 a b s vdd gnd NAND
+	Xinv s out vdd gnd INV
+.Ends AND
+*=====================AND3===============================
+.Subckt AND3 a b c out vdd gnd
+	Xn3 a b c s vdd gnd NAND3
+	Xinv s out vdd gnd INV
+.Ends AND3
+*=============================AND4============================
+.Subckt AND4 a b c d out vdd gnd
+	Xn4 a b c d s vdd gnd NAND4
+	Xinv s out vdd gnd INV
+.Ends AND4
+*=============================AND5============================
+.Subckt AND5 a b c d e out vdd gnd
+	Xn5 a b c d e s vdd gnd NAND5
+	Xinv s out vdd gnd INV
+.Ends AND5
+*===================NOR2=================================
+.Subckt NOR a b out vdd gnd
+	Mp1 vdd a x vdd PMOS l=16n w=64n 
+	Mp2 x b out vdd PMOS l=16n w=64n 
+
+	Mn1 out a gnd gnd NMOS l=16n w=32n 
+	Mn2 out b gnd gnd NMOS l=16n w=32n 
+.Ends NOR
+*======================NOR3=============================
+.Subckt NOR3 a b c out vdd gnd
+	Mp1 vdd a x vdd PMOS l=16n w=64n 
+	Mp2 x b y vdd PMOS l=16n w=64n 
+	Mp3 y c out vdd PMOS l=16n w=64n 
+
+
+	Mn1 out a gnd gnd NMOS l=16n w=32n 
+	Mn2 out b gnd gnd NMOS l=16n w=32n 
+	Mn3 out c gnd gnd NMOS l=16n w=32n 
+.Ends NOR3
+*=======================NOR4===============================
+.Subckt NOR4 a b c d out vdd gnd
+	Mp1 vdd a x vdd PMOS l=16n w=64n 
+	Mp2 x b y vdd PMOS l=16n w=64n 
+	Mp3 y c z vdd PMOS l=16n w=64n 
+	Mp4 z d out vdd PMOS l=16n w=64n 
+
+	
+	Mn1 out a gnd gnd NMOS l=16n w=32n 
+	Mn2 out b gnd gnd NMOS l=16n w=32n 
+	Mn3 out c gnd gnd NMOS l=16n w=32n 
+	Mn4 out d gnd gnd NMOS l=16n w=32n 
+
+.Ends NOR4
+*=====================NOR5===============================
+.Subckt NOR5 a b c d e out vdd gnd
+	Mp1 vdd a x vdd PMOS l=16n w=64n 
+	Mp2 x b y vdd PMOS l=16n w=64n 
+	Mp3 y c z vdd PMOS l=16n w=64n 
+	Mp4 z d m vdd PMOS l=16n w=64n 
+	Mp5 m e out vdd PMOS l=16n w=64n 
+
+	Mn1 out a gnd gnd NMOS l=16n w=32n 
+	Mn2 out b gnd gnd NMOS l=16n w=32n 
+	Mn3 out c gnd gnd NMOS l=16n w=32n 
+	Mn4 out d gnd gnd NMOS l=16n w=32n 
+	Mn5 out e gnd gnd NMOS l=16n w=32n 
+
+.Ends NOR5
+*=========================OR2============================
+.Subckt OR a b out vdd gnd
+	Xnor a b s vdd gnd NOR
+	Xinv s out vdd gnd INV
+.Ends OR
+
+*==============================OR3=======================
+.Subckt OR3 a b c out vdd gnd
+	Xn3 a b c s vdd gnd NOR3
+	Xi1 s out vdd gnd INV
+.Ends OR3
+
+*===============================OR4=======================
+.Subckt OR4 a b c d out vdd gnd
+	Xn4 a b c d s vdd gnd NOR4
+	Xi1 s out vdd gnd INV
+.Ends
+
+*============================OR5============================
+.Subckt OR5 a b c d e out vdd gnd
+	Xn5 a b c d e s vdd gnd NOR5
+	Xi1 s out vdd gnd INV
+.Ends
+
+*=================XOR====================================
+.Subckt XOR a b out vdd gnd 
+	*instanciacao inversores
+			Xinv1 a inva vdd gnd INV
+			Xinv2 b invb vdd gnd INV
+	*====================REDE PULL UP=====================
+	*Esquerda=============================================
+			Mp1 vdd invb nodo1 vdd PMOS L=16n W=64n 
+			Mp2 nodo1 a out vdd PMOS L=16n W=64n 
+	*Direita=============================================
+			Mp3 vdd b nodo2 vdd PMOS L=16n W=64n 
+			Mp4 nodo2 inva out vdd PMOS L=16n W=64n 
+	*===============REDE PULL DOWN=======================
+	*Esquerda=============================================
+			Mn1 out b nodo3 gnd NMOS L=16n W=32n 
+			Mn2 nodo3 a gnd gnd NMOS L=16n W=32n 
+	*Direita=============================================
+			Mn3 out invb nodo4 gnd NMOS L=16n W=32n 
+			Mn4 nodo4 inva gnd gnd NMOS L=16n W=32n 
+			
+					
+.Ends XOR
+*==============================HALF ADDER========================
+.Subckt HA in1 in2 soma c vdd gnd
+	Xxor in1 in2 soma vdd gnd XOR
+	Xand in1 in2 c vdd gnd AND
+.Ends HA
+*=============================FA_CMOS ->> AXA2====================================
+.subckt FA_CMOS cin a b soma cout vdd gnd
+    *Rede PMOS
+        Mp1 vdd a sc1 vdd PMOS w=64n l=16n
+        Mp2 sc1 b soma vdd PMOS w=64n l=16n
+        Mp3 cin soma cout vdd PMOS w=64n l=16n
+    *Rede NMOS
+        Mn1 soma b a gnd NMOS w=32n l=16n
+        Mn2 soma a b gnd NMOS w=32n l=16n
+        Mn3 a soma cout gnd NMOS w=32n l=16n
+.ends FA_CMOS
+*========CIRCUITO CAS==================================
+.Subckt CAS cin yi sel enb pin soma cout vdd gnd
+	Xxor sel yi a vdd gnd XOR
+	Xand enb a b vdd gnd AND
+	Xsum cin pin b soma cout vdd gnd FA_CMOS
+.Ends CAS
+
+*====================WHITE CELL============================
+.subckt whiteCell ci si a b soma cout vdd gnd
+	Xand a b x vdd gnd AND
+	Xsomador ci si x soma cout vdd gnd FA_CMOS
+ .ends whiteCell
+ *=====================GRAY CELL============================
+.subckt grayCell ci si a b soma cout vdd gnd
+	Xnand a b x vdd gnd NAND
+	Xsomador ci si x soma cout vdd gnd FA_CMOS
+.ends grayCell
+ 
+*=====================VEDIC 2===================================
+.Subckt VEDIC2 ina0 ina1 inb0 inb1 p0 p1 p2 p3 vdd gnd
+	Xand0 ina0 inb0 p0 vdd gnd AND
+	Xand1 ina0 inb1 x0 vdd gnd AND 
+	Xand2 ina1 inb0 x1 vdd gnd AND
+	Xand3 ina1 inb1 x3 vdd gnd AND
+	Xha1 x0 x1 p1 x2 vdd gnd HA
+	Xha2 x2 x3 p2 p3 vdd gnd HA
+.Ends VEDIC2 
+
+*================================================================CLA 4==================================================================================
+.Subckt CLA4 cin a0 a1 a2 a3 b0 b1 b2 b3 s0 s1 s2 s3 c4 PG GG vdd gnd
+	Xx0 a0 b0 p0 vdd gnd OR
+	Xx1 a1 b1 p1 vdd gnd OR
+	Xx2 a2 b2 p2 vdd gnd OR
+	Xx3 a3 b3 p3 vdd gnd OR
+	Xa0 a0 b0 g0 vdd gnd AND
+	Xa1 a1 b1 g1 vdd gnd AND
+	Xa2 a2 b2 g2 vdd gnd AND
+	Xa3 a3 b3 g3 vdd gnd AND
+	
+	Xand11 p0 cin nodo11 vdd gnd AND
+	Xor1 g0 nodo11 c1 vdd gnd OR
+	
+	Xand21 g0 p1 nodo21 vdd gnd AND
+	Xand22 cin p0 p1 nodo22 vdd gnd AND3
+	Xor2 g1 nodo21 nodo22 c2 vdd gnd OR3
+	
+	Xand31 g1 p2 nodo31 vdd gnd AND
+	Xand32 g0 p1 p2 nodo32 vdd gnd AND3
+	Xand33 cin p0 p1 p2 nodo33 vdd gnd AND4
+	Xor3 g2 nodo31 nodo32 nodo33 c3 vdd gnd OR4
+	
+	Xand41 g2 p3 nodo41 vdd gnd AND
+	Xand42 g1 p2 p3 nodo42 vdd gnd AND3
+	Xand43 g0 p1 p2 p3 nodo43 vdd gnd AND4
+	Xand44 cin p0 p1 p2 p3 nodo44 vdd gnd AND5
+	Xor4 g3 nodo41 nodo42 nodo43 nodo44 c4 vdd gnd OR5
+	
+	Xor_pg p0 p1 p2 p3 PG vdd gnd AND4
+	Xor_gg g3 nodo41 nodo42 nodo43 GG vdd gnd OR4
+		
+	Xfa1 cin a0 b0 s0 cout1 vdd gnd FA_CMOS
+	Xfa2 c1 a1 b1 s1 cout2 vdd gnd FA_CMOS
+	Xfa3 c2 a2 b2 s2 cout3 vdd gnd FA_CMOS
+	Xfa4 c3 a3 b3 s3 cout4 vdd gnd FA_CMOS
+.Ends CLA4
+
+*=============================================64 INVERSORES====================================================================
+.Subckt INV_BLOCK f0in f1in f2in f3in f4in f5in f6in f7in f8in f9in f10in f11in f12in f13in f14in f15in f16in f17in f18in f19in f20in f21in f22in f23in f24in f25in f26in f27in f28in f29in f30in f31in f0 f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12 f13 f14 f15 f16 f17 f18 f19 f20 f21 f22 f23 f24 f25 f26 f27 f28 f29 f30 f31 vdd gnd
+
+Xinv0_0 f0in aux0 vdd gnd INV
+Xinv0_1 f1in aux1 vdd gnd INV
+Xinv0_2 f2in aux2 vdd gnd INV
+Xinv0_3 f3in aux3 vdd gnd INV
+Xinv0_4 f4in aux4 vdd gnd INV
+Xinv0_5 f5in aux5 vdd gnd INV
+Xinv0_6 f6in aux6 vdd gnd INV
+Xinv0_7 f7in aux7 vdd gnd INV
+Xinv0_8 f8in aux8 vdd gnd INV
+Xinv0_9 f9in aux9 vdd gnd INV
+Xinv0_10 f10in aux10 vdd gnd INV
+Xinv0_11 f11in aux11 vdd gnd INV
+Xinv0_12 f12in aux12 vdd gnd INV
+Xinv0_13 f13in aux13 vdd gnd INV
+Xinv0_14 f14in aux14 vdd gnd INV
+Xinv0_15 f15in aux15 vdd gnd INV
+Xinv0_16 f16in aux16 vdd gnd INV
+Xinv0_17 f17in aux17 vdd gnd INV
+Xinv0_18 f18in aux18 vdd gnd INV
+Xinv0_19 f19in aux19 vdd gnd INV
+Xinv0_20 f20in aux20 vdd gnd INV
+Xinv0_21 f21in aux21 vdd gnd INV
+Xinv0_22 f22in aux22 vdd gnd INV
+Xinv0_23 f23in aux23 vdd gnd INV
+Xinv0_24 f24in aux24 vdd gnd INV
+Xinv0_25 f25in aux25 vdd gnd INV
+Xinv0_26 f26in aux26 vdd gnd INV
+Xinv0_27 f27in aux27 vdd gnd INV
+Xinv0_28 f28in aux28 vdd gnd INV
+Xinv0_29 f29in aux29 vdd gnd INV
+Xinv0_30 f30in aux30 vdd gnd INV
+Xinv0_31 f31in aux31 vdd gnd INV
+
+Xinv1_0 aux0 f0 vdd gnd INV
+Xinv1_1 aux1 f1 vdd gnd INV
+Xinv1_2 aux2 f2 vdd gnd INV
+Xinv1_3 aux3 f3 vdd gnd INV
+Xinv1_4 aux4 f4 vdd gnd INV
+Xinv1_5 aux5 f5 vdd gnd INV
+Xinv1_6 aux6 f6 vdd gnd INV
+Xinv1_7 aux7 f7 vdd gnd INV
+Xinv1_8 aux8 f8 vdd gnd INV
+Xinv1_9 aux9 f9 vdd gnd INV
+Xinv1_10 aux10 f10 vdd gnd INV
+Xinv1_11 aux11 f11 vdd gnd INV
+Xinv1_12 aux12 f12 vdd gnd INV
+Xinv1_13 aux13 f13 vdd gnd INV
+Xinv1_14 aux14 f14 vdd gnd INV
+Xinv1_15 aux15 f15 vdd gnd INV
+Xinv1_16 aux16 f16 vdd gnd INV
+Xinv1_17 aux17 f17 vdd gnd INV
+Xinv1_18 aux18 f18 vdd gnd INV
+Xinv1_19 aux19 f19 vdd gnd INV
+Xinv1_20 aux20 f20 vdd gnd INV
+Xinv1_21 aux21 f21 vdd gnd INV
+Xinv1_22 aux22 f22 vdd gnd INV
+Xinv1_23 aux23 f23 vdd gnd INV
+Xinv1_24 aux24 f24 vdd gnd INV
+Xinv1_25 aux25 f25 vdd gnd INV
+Xinv1_26 aux26 f26 vdd gnd INV
+Xinv1_27 aux27 f27 vdd gnd INV
+Xinv1_28 aux28 f28 vdd gnd INV
+Xinv1_29 aux29 f29 vdd gnd INV
+Xinv1_30 aux30 f30 vdd gnd INV
+Xinv1_31 aux31 f31 vdd gnd INV
+
+.Ends INV_BLOCK
+
+
+
+
+
+
+
+
+
+
+
+
+

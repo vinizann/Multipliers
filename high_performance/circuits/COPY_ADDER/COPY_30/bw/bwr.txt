@@ -1,0 +1,103 @@
+*multiplicador baugh-wooley rajmohan
+.include library.cir
+.include 16nm_HP.pm
+*fonte de tensao
+	Vvdd vdd gnd 0.7
+	Vvdd2 vdd2 gnd 0.7	
+*carries iniciais------------------------------------------------------
+	Vc0 c0 gnd 0
+	Vc1 c1 gnd 0
+	Vc2 c2 gnd 0
+	Vc3 c3 gnd 0
+*somas iniciais no eixo x-----------------------------------------------
+	Vsi1 si1 gnd 0
+	Vsi2 si2 gnd 0
+	Vsi3 si3 gnd 0
+	Vsi4 si4 gnd 0
+	
+*somas iniciais no eixo y-----------------------------------------------
+	Vsj1 sj1 gnd 0
+	Vsj2 sj2 gnd 0
+	Vsj3 sj3 gnd 0
+	Vsj4 sj4 gnd 0.7
+	Vsj5 sj5 gnd 0.7
+*==========arquivo de fontes=============================================					 
+.include fontes.txt
+*=====barreira de inversores=============================================
+	Xinva0 f0in fonte0 vdd2 gnd INV
+	Xinva1 f1in fonte1 vdd2 gnd INV
+	Xinva2 f2in fonte2 vdd2 gnd INV
+	Xinva3 f3in fonte3 vdd2 gnd INV
+	Xinva4 f4in fonte4 vdd2 gnd INV
+	Xinva5 f5in fonte5 vdd2 gnd INV
+	Xinva6 f6in fonte6 vdd2 gnd INV
+	Xinva7 f7in fonte7 vdd2 gnd INV
+ 						  						  						  						  						  						  						  			
+	Xinvb0 fonte0 f0 vdd2 gnd INV
+	Xinvb1 fonte1 f1 vdd2 gnd INV
+	Xinvb2 fonte2 f2 vdd2 gnd INV
+	Xinvb3 fonte3 f3 vdd2 gnd INV
+	Xinvb4 fonte4 f4 vdd2 gnd INV
+	Xinvb5 fonte5 f5 vdd2 gnd INV
+	Xinvb6 fonte6 f6 vdd2 gnd INV
+	Xinvb7 fonte7 f7 vdd2 gnd INV
+
+*=================mapeamento das entradas================================
+*====f0=====a3
+*====f1=====a2
+*====f2=====a1
+*====f3=====a0
+*====f4=====b3
+*====f5=====b2
+*====f6=====b1
+*====f7=====b0
+*====================WHITE CELL===========================================
+*.subckt whiteCell ci si a b soma cout vdd gnd
+*	Xand a b x vdd gnd AND
+*	Xsomador ci si x soma cout vdd gnd FA_CMOS
+* .ends whiteCell
+*=====================GRAY CELL==========================================
+*.subckt grayCell ci si a b soma cout vdd gnd
+*	Xnand a b x vdd gnd NAND
+*	Xsomador ci si x soma cout vdd gnd FA_CMOS
+*.ends grayCell
+*====================linha 1=============================================
+	Xcelula11 c0 si1 f0 f7 soma11 cout11 vdd gnd grayCell
+	Xcelula12 c1 si2 f1 f7 soma12 cout12 vdd gnd whiteCell
+	Xcelula13 c2 si3 f2 f7 soma13 cout13 vdd gnd WCOPY
+	Xcelula14 c3 si4 f3 f7 p0 cout14 vdd gnd WCOPY
+*====================linha 2=============================================
+	Xcelula21 cout11 sj1 f0 f6 soma21 cout21 vdd gnd grayCell
+	Xcelula22 cout12 soma11 f1 f6 soma22 cout22 vdd gnd whiteCell
+	Xcelula23 cout13 soma12 f2 f6 soma23 cout23 vdd gnd WCOPY
+	Xcelula24 cout14 soma13 f3 f6 p1 cout24 vdd gnd WCOPY
+*===================linha 3==============================================
+	Xcelula31 cout21 sj2 f0 f5 soma31 cout31 vdd gnd grayCell
+	Xcelula32 cout22 soma21 f1 f5 soma32 cout32 vdd gnd whiteCell
+	Xcelula33 cout23 soma22 f2 f5 soma33 cout33 vdd gnd WCOPY
+	Xcelula34 cout24 soma23 f3 f5 p2 cout34 vdd gnd WCOPY
+*=====================linha 4============================================
+	Xcelula41 cout31 sj3 f0 f4 soma41 cout41 vdd gnd whiteCell
+	Xcelula42 cout32 soma31 f1 f4 soma42 cout42 vdd gnd grayCell
+	Xcelula43 cout33 soma32 f2 f4 soma43 cout43 vdd gnd grayCell
+	Xcelula44 cout34 soma33 f3 f4 p3 cout44 vdd gnd grayCell
+*linha 5-----------------------------------------------------------------	
+    	X_FA_1 cout41 sj4 cout52 p7 cout51 vdd gnd FA_CMOS
+	X_FA_2 cout42 soma41 cout53 p6 cout52 vdd gnd FA_CMOS
+	X_FA_3 cout43 soma42 cout54 p5 cout53 vdd gnd FA_CMOS
+	X_FA_4 cout44 soma43 sj5 p4 cout54 vdd gnd FA_CMOS
+
+*========capacitancia de saida===========================================
+	cload0 p0 gnd 1f
+	cload1 p1 gnd 1f
+	cload2 p2 gnd 1f
+	cload3 p3 gnd 1f 
+	cload4 p4 gnd 1f
+	cload5 p5 gnd 1f 
+	cload6 p6 gnd 1f
+	cload7 p7 gnd 1f 		
+
+*==============simulacao=================================================		  
+.tran 0.001 4n
+.include measure.txt
+.end

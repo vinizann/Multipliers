@@ -1,0 +1,82 @@
+*multiplicador array
+	.include library.cir
+	.include 16nm_LP.pm
+*fonte de tensao--------------------
+	Vvdd vdd gnd 0.9
+	Vvdd2 vdd2 gnd 0.9
+	
+	Vcin0 cin0 gnd 0
+	Vcin1 cin1 gnd 0
+	Vcin2 cin2 gnd 0
+	Vcin3 cin3 gnd 0
+*entradas-------------------------
+.include fontes.txt
+	Xinva0 f0in fonte0 vdd2 gnd INV
+	Xinva1 f1in fonte1 vdd2 gnd INV
+	Xinva2 f2in fonte2 vdd2 gnd INV
+	Xinva3 f3in fonte3 vdd2 gnd INV
+	Xinva4 f4in fonte4 vdd2 gnd INV
+	Xinva5 f5in fonte5 vdd2 gnd INV
+	Xinva6 f6in fonte6 vdd2 gnd INV
+	Xinva7 f7in fonte7 vdd2 gnd INV
+	Xinvb0 fonte0 f0 vdd2 gnd INV
+	Xinvb1 fonte1 f1 vdd2 gnd INV
+	Xinvb2 fonte2 f2 vdd2 gnd INV
+	Xinvb3 fonte3 f3 vdd2 gnd INV
+	Xinvb4 fonte4 f4 vdd2 gnd INV
+	Xinvb5 fonte5 f5 vdd2 gnd INV
+	Xinvb6 fonte6 f6 vdd2 gnd INV
+	Xinvb7 fonte7 f7 vdd2 gnd INV
+*LINHA0-------------------------------------------
+*---f3=a0	
+	Xand00 f3 f7 p0 vdd gnd AND
+	Xand01 f3 f6 P0_1 vdd gnd AND
+	Xand02 f3 f5 P0_2 vdd gnd AND
+	Xand03 f3 f4 P0_3 vdd gnd AND
+*LINHA1-------------------------------------------
+*---f2=a1	
+	Xand10 f2 f7 P1_0 vdd gnd AND
+	Xand11 f2 f6 P1_1 vdd gnd AND
+	Xand12 f2 f5 P1_2 vdd gnd AND
+	Xand13 f2 f4 P1_3 vdd gnd AND
+*SOMADORES0----------------------------------------
+	Xha00 cin0 P1_0 P0_1 p1 cout00 vdd gnd FA_CMOS
+	Xfa01 cout00 P1_1 P0_2 soma01 cout01 vdd gnd FA_CMOS
+	Xfa02 cout01 P1_2 P0_3 soma02 cout02 vdd gnd FA_CMOS
+	Xha03 cin1 P1_3 cout02 soma03 cout03 vdd gnd FA_CMOS
+*LINHA2--------------------------------------------------
+*---f1=a2
+	Xand20 f1 f7 P2_0 vdd gnd AND
+	Xand21 f1 f6 P2_1 vdd gnd AND
+	Xand22 f1 f5 P2_2 vdd gnd AND
+	Xand23 f1 f4 P2_3 vdd gnd AND
+*SOMADORES1------------------------------------------
+	Xha10 cin2 P2_0 soma01 p2 cout10 vdd gnd FA_CMOS
+	Xfa11 cout10 P2_1 soma02 soma11 cout11 vdd gnd FA_CMOS
+	Xfa12 cout11 P2_2 soma03 soma12 cout12 vdd gnd FA_CMOS
+	Xfa13 cout12 cout03 P2_3 soma13 cout13 vdd gnd FA_CMOS
+*LINHA3--------------------------------------------------
+*---f0=a3
+	Xand30 f0 f7 P3_0 vdd gnd AND
+	Xand31 f0 f6 P3_1 vdd gnd AND
+	Xand32 f0 f5 P3_2 vdd gnd AND
+	Xand33 f0 f4 P3_3 vdd gnd AND
+*SOMADORES2---------------------------------------------
+	Xha20 cin3 P3_0 soma11 p3 cout20 vdd gnd FA_CMOS
+	Xfa21 cout20 P3_1 soma12 p4 cout21 vdd gnd FA_CMOS
+	Xfa22 cout21 P3_2 soma13 p5 cout22 vdd gnd FA_CMOS
+	Xfa23 cout22 P3_3 cout13 p6 p7 vdd gnd FA_CMOS
+*---saidas---------------------------------------
+	Cload0 p0 gnd 1f
+	Cload1 p1 gnd 1f
+	Cload2 p2 gnd 1f
+	Cload3 p3 gnd 1f
+	Cload4 p4 gnd 1f
+	Cload5 p5 gnd 1f
+	Cload6 p6 gnd 1f
+	Cload7 p7 gnd 1f
+*simulacao-----------
+.tran 0.001 4n
+*measure-------------
+.include measure.txt
+.end
