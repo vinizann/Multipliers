@@ -12,5 +12,7 @@ In order to run the experiments, you will need to copy the model (16nm_LP or 16n
   - -> "delay_unsigned.cpp"
   - -> "operation_unsigned.cpp"
 
+Then, to measure the delay of the circuits, run the "delay_unsigned.cpp" file. To measure the energy and the result of multiplication, run the "operation_unsigned.cpp".
+
 Contact:
 Vinicius Zanandrea - viniciuszanandrea@gmail.com
